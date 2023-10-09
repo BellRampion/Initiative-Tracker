@@ -119,7 +119,40 @@ class HomePage extends StatelessWidget {
 								FloatingActionButton(
 									child: Icon(Icons.delete_outlined),
 									onPressed: () async {
-										context.read<InitTrackerBloc>().add(DeleteAll());
+										bool? delete = await showDialog(
+											context: context,
+											builder: (context){
+												return AlertDialog(
+													content: Text(
+														"WARNING: This will delete all items in the tracker. Are you sure?", 
+														style: UIStyles.getHeaderText(context).copyWith(color: Theme.of(context).colorScheme.error)
+													),
+													actions: [
+														TextButton(
+															onPressed: (){
+																Navigator.pop(context, false);
+															},
+															child: Text(
+																"Cancel", 
+																style: UIStyles.getTextButtonText(context)
+															),
+														),
+														TextButton(
+															onPressed: (){
+																Navigator.pop(context, true);
+															},
+															child: Text(
+																"OK", 
+																style: UIStyles.getTextButtonText(context).copyWith(color: Theme.of(context).colorScheme.error)
+															),
+														),
+													]
+												);
+											}
+										);
+										if (delete != null && delete){
+											context.read<InitTrackerBloc>().add(DeleteAll());
+										}
 									}
 								),
 								SizedBox(width: iconButtonSpacing),

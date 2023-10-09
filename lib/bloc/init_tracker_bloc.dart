@@ -42,7 +42,11 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			int currentStep = state.listPlace;
 			int newStep;
 			newStep = currentStep + 1;
-			if (newStep == state.initList.length)
+
+			if (state.initList.isEmpty){
+				newStep = 0;
+			}
+			else if (newStep == state.initList.length)
 			{
 				newStep = 0;
 			}

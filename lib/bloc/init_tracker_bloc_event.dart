@@ -14,20 +14,12 @@ class AdvanceTracker extends InitTrackerBlocEvent {
 	AdvanceTracker();
 }
 
-class ToggleDeleteButtons extends InitTrackerBlocEvent {
-	bool deleteButtons = false;
-	
-	ToggleDeleteButtons({required this.deleteButtons});
-}
-
-class ToggleCopyButtons extends InitTrackerBlocEvent {
-	bool copyButtons = false;
-
-	ToggleCopyButtons({required this.copyButtons});
-}
-
 class DeleteItem extends InitTrackerBlocEvent {
-	int index;
+	UniqueKey key;
 
-	DeleteItem({required this.index});
+	DeleteItem({required this.key});
+}
+
+class DeleteAll extends InitTrackerBlocEvent {
+	DeleteAll();
 }

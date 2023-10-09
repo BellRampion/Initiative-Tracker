@@ -35,6 +35,7 @@ class MainApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
 	const HomePage({super.key});
 	static const double boxHeight = 10;
+	static const double iconButtonSpacing = 16;
 
 
 
@@ -47,9 +48,8 @@ class HomePage extends StatelessWidget {
 						context: context, 
 						builder: (context){
 							return AlertDialog(
-								title: Text("New Round", style: UIStyles.getHeaderText(context)),
 								content: Text("New Round Starting", style: UIStyles.getRegularText(context)),
-								contentPadding: EdgeInsets.all(8.0),
+								contentPadding: EdgeInsets.all(16.0),
 								actions: [
 									TextButton(
 										child: Text("Ok", style: UIStyles.getTextButtonText(context)),
@@ -68,34 +68,43 @@ class HomePage extends StatelessWidget {
 					appBar: AppBar(
 						backgroundColor: Color.fromARGB(255, 61, 0, 0),
 						title: Text("Initiative Tracker", style: UIStyles.getHeaderText(context)),
-						actions: [
-							IconButton(
-								onPressed: (){
-
-								}, 
-								icon: Icon(Icons.edit),
-							),
-							IconButton(
-								onPressed: (){
-
-								}, 
-								icon: Icon(Icons.delete),
-							)
-						]
 					),
 					body: Padding(
 						padding: EdgeInsets.all(8.0),
 						child: ListView.builder(
 							itemCount: state.initList.length,
 							itemBuilder: (context, index){
-								return InitTrackerItemCard(
-									initTrackerItem: state.initList[index],
-									copyButton: IconButton(
+								//Have to pull it out for the onPressed
+								InitTrackerItem initialItem = state.initList[index];
 
+								return InitTrackerItemCard(
+									isSelected: state.listPlace == index,
+									initTrackerItem: initialItem,
+									copyButton: IconButton(
+										icon: Icon(Icons.copy),
+										onPressed: () async {
+											InitTrackerItem? item = await showDialog<InitTrackerItem>(
+												context: context,
+												builder: (context) {
+													return addItemDialog(
+														context: context, 
+														name: initialItem.name, 
+														initiative: initialItem.initiative, 
+														currentHp: initialItem.currentHp, 
+														totalHp: initialItem.totalHp,
+													);
+												},
+											);
+
+											if (item != null){
+												context.read<InitTrackerBloc>().add(AddInitItem(item: item));
+											}
+										}
 									),
 									deleteButton: IconButton(
+										icon: Icon(Icons.delete),
 										onPressed: (){
-											context.read<InitTrackerBloc>().add(DeleteItem(index: index));
+											context.read<InitTrackerBloc>().add(DeleteItem(key: initialItem.key));
 										}
 									),
 								);
@@ -108,12 +117,12 @@ class HomePage extends StatelessWidget {
 							mainAxisAlignment: MainAxisAlignment.end,
 							children: [
 								FloatingActionButton(
-									child: Icon(Icons.navigate_next),
+									child: Icon(Icons.delete_outlined),
 									onPressed: () async {
-										context.read<InitTrackerBloc>().add(AdvanceTracker());
+										context.read<InitTrackerBloc>().add(DeleteAll());
 									}
 								),
-								SizedBox(width: 16),
+								SizedBox(width: iconButtonSpacing),
 								FloatingActionButton(
 									onPressed: () async {
 										InitTrackerItem? item = await showDialog<InitTrackerItem>(
@@ -129,6 +138,15 @@ class HomePage extends StatelessWidget {
 									},
 									child: const Icon(Icons.add),
 								),
+								SizedBox(width: iconButtonSpacing),
+								FloatingActionButton(
+									child: Icon(Icons.navigate_next),
+									onPressed: () async {
+										context.read<InitTrackerBloc>().add(AdvanceTracker());
+									}
+								),
+								SizedBox(width: iconButtonSpacing),
+								
 							]
 						),
 					),

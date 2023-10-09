@@ -1,4 +1,5 @@
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'init_tracker_bloc_state.dart';
@@ -10,42 +11,48 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 	InitTrackerBloc() : super(InitTrackerBlocState.initial()){
 
 		on<AddInitItem>(( event, emit) async {
-			//Add the new initiative step
-			state.initList.add(event.item);
-			//Mark the list to be sorted when the round restarts
-			sortOnNewRound = true;
+			UniqueKey key;
+			int newListPlace = 0;
+			if (state.initList.isNotEmpty){
+				//Save the key for the currently selected item so it doesn't lose its place
+				key = state.initList[state.listPlace].key;
+				//Add the new initiative step
+				state.initList.add(event.item);
+				//Sort high to low initative
+				state.initList.sort((a, b) => a.initiative.compareTo(b.initiative) * -1);
+				//Find the item with the saved key and set it as the currently selected item
+				for (int i = 0; i < state.initList.length; i++){
+					if (state.initList[i].key == key){
+						newListPlace = i;
+						break;
+					}
+				}
+			}
+			else {
+				state.initList.add(event.item);
+			}
 
 			emit(InitTrackerBlocState(
 				initList: state.initList,
-				listPlace: state.listPlace,
-				showDeleteButtons: state.showDeleteButtons,
-				showCopyButtons: state.showCopyButtons,
+				listPlace: newListPlace,
 			));
 		});
 
 		on<AdvanceTracker>((event, emit){
 			int currentStep = state.listPlace;
 			int newStep;
-			if (currentStep == 0){
-				newStep = 1;
-			}
-			else {
-				newStep = state.initList.length % currentStep;
+			newStep = currentStep + 1;
+			if (newStep == state.initList.length)
+			{
+				newStep = 0;
 			}
 			print("New step: $newStep\n");
 
 			if (newStep == 0){
-				if (sortOnNewRound){
-					//Sort high to low initative
-					state.initList.sort((a, b) => a.initiative.compareTo(b.initiative) * -1);
-					sortOnNewRound = false;
-				}
 				emit(InitTrackerBlocState(
 					initList: state.initList,
 					listPlace: newStep,
 					isNewRound: true,
-					showDeleteButtons: state.showDeleteButtons,
-					showCopyButtons: state.showCopyButtons,
 				));
 			}
 			else {
@@ -53,34 +60,46 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					initList: state.initList,
 					listPlace: newStep,
 					isNewRound: false,
-					showDeleteButtons: state.showDeleteButtons,
-					showCopyButtons: state.showCopyButtons,
 				));
 			}
 		});
 
-		on<ToggleDeleteButtons>((event, emit){
-			emit(
-				InitTrackerBlocState(
-					initList: state.initList,
-					listPlace: state.listPlace,
-					isNewRound: state.isNewRound,
-					showDeleteButtons: event.deleteButtons,
-					showCopyButtons: state.showCopyButtons,
-				)
-			);
+		on<DeleteItem>((event, emit){
+			int itemIndex = 0;
+			UniqueKey currItemKey;
+			int newListPlace = 0;
+
+			//Save the key for the currently selected item so it doesn't lose its place
+			currItemKey = state.initList[state.listPlace].key;
+
+			//Find the item with the key that needs to be deleted
+			for (int i = 0; i < state.initList.length; i++){
+				if (event.key == state.initList[i].key){
+					itemIndex = i;
+				}
+			}
+			state.initList.removeAt(itemIndex);
+
+			//Find the item with the saved key and set it as the currently selected item
+			for (int i = 0; i < state.initList.length; i++){
+				if (state.initList[i].key == currItemKey){
+					newListPlace = i;
+					break;
+				}
+			}
+
+			emit(InitTrackerBlocState(
+				initList: state.initList,
+				listPlace: newListPlace,
+			));
 		});
 
-		on<ToggleCopyButtons>((event, emit){
-			emit(
-				InitTrackerBlocState(
-					initList: state.initList,
-					listPlace: state.listPlace,
-					isNewRound: state.isNewRound,
-					showDeleteButtons: state.showDeleteButtons,
-					showCopyButtons: event.copyButtons,
-				)
-			);
+		on<DeleteAll>((event, emit){
+
+			emit(InitTrackerBlocState(
+				initList: [],
+				listPlace: 0,
+			));
 		});
 
 	}

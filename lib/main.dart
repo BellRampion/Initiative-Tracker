@@ -20,6 +20,7 @@ class MainApp extends StatelessWidget {
 		return BlocProvider(
 			create: (context) => InitTrackerBloc(),
 			child: MaterialApp(
+				title: "Initiative Tracker",
 				debugShowCheckedModeBanner: false,
 				theme: ThemeData.dark().copyWith(
 					colorScheme: ColorScheme.fromSeed(

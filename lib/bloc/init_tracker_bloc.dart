@@ -50,7 +50,6 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			{
 				newStep = 0;
 			}
-			print("New step: $newStep\n");
 
 			if (newStep == 0){
 				emit(InitTrackerBlocState(

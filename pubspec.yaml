@@ -15,6 +15,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  msix: ^3.16.6
 
 flutter:
   uses-material-design: true
+
+msix_config:
+  display_name: Basic Initiative Tracker
+  publisher_display_name: Bailie Gowing
+  identity_name: bailiegowing.basicInitiativeTracker
+  msix_version: 1.0.0.0

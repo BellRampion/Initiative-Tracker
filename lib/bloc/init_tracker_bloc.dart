@@ -50,8 +50,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			{
 				newStep = 0;
 			}
-			print("New step: $newStep\n");
-
+      
 			if (newStep == 0){
 				emit(InitTrackerBlocState(
 					initList: state.initList,
@@ -99,12 +98,19 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 		});
 
 		on<DeleteAll>((event, emit){
-
 			emit(InitTrackerBlocState(
 				initList: [],
 				listPlace: 0,
 			));
 		});
+
+    on<RestartTracker>((event, emit){
+      emit(InitTrackerBlocState(
+        initList: state.initList,
+        listPlace: 0,
+        isNewRound: true,
+      ));
+    });
 
 	}
 }

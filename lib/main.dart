@@ -178,6 +178,13 @@ class HomePage extends StatelessWidget {
 										context.read<InitTrackerBloc>().add(AdvanceTracker());
 									}
 								),
+                SizedBox(width: iconButtonSpacing),
+								FloatingActionButton(
+									child: Icon(Icons.restart_alt),
+									onPressed: () async {
+										context.read<InitTrackerBloc>().add(RestartTracker());
+									}
+								),
 								SizedBox(width: iconButtonSpacing),
 								
 							]

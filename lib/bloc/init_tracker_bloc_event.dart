@@ -23,3 +23,7 @@ class DeleteItem extends InitTrackerBlocEvent {
 class DeleteAll extends InitTrackerBlocEvent {
 	DeleteAll();
 }
+
+class RestartTracker extends InitTrackerBlocEvent {
+  RestartTracker();
+}

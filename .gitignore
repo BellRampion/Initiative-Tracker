@@ -25,4 +25,7 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+#Manually added exclusions
 Algorithm Design.txt
+.debian/packages

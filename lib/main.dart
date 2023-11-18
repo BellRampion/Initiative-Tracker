@@ -90,6 +90,7 @@ class HomePage extends StatelessWidget {
 													return addItemDialog(
 														context: context, 
 														name: initialItem.name, 
+														notes: initialItem.notes,
 														initiative: initialItem.initiative, 
 														currentHp: initialItem.currentHp, 
 														totalHp: initialItem.totalHp,
@@ -162,7 +163,7 @@ class HomePage extends StatelessWidget {
 										InitTrackerItem? item = await showDialog<InitTrackerItem>(
 											context: context,
 											builder: (context) {
-												return addItemDialog(context: context, name: "", initiative: 0, currentHp: 0, totalHp: 0);
+												return addItemDialog(context: context, name: "", notes: "", initiative: 0, currentHp: 0, totalHp: 0);
 											},
 										);
 
@@ -196,8 +197,9 @@ class HomePage extends StatelessWidget {
 		);
 	}
 
-	Widget addItemDialog({required BuildContext context, required String name, required int currentHp, required int totalHp, required int initiative}){
+	Widget addItemDialog({required BuildContext context, required String name, required String notes, required int currentHp, required int totalHp, required int initiative}){
 		TextEditingController nameController = TextEditingController(text: name);
+		TextEditingController notesController = TextEditingController(text: notes);
 		TextEditingController currentHpController = TextEditingController(text: currentHp.toString());
 		TextEditingController totalHpController = TextEditingController(text: totalHp.toString());
 		TextEditingController initiativeController = TextEditingController(text: initiative.toString());
@@ -215,6 +217,15 @@ class HomePage extends StatelessWidget {
 							),
 							style: UIStyles.getRegularText(context),
 							controller: nameController,
+						),
+						SizedBox(height: boxHeight),
+						TextField(
+							decoration: InputDecoration(
+								labelText: "Notes",
+								border: OutlineInputBorder()
+							),
+							style: UIStyles.getRegularText(context),
+							controller: notesController, 
 						),
 						SizedBox(height: boxHeight),
 						TextField(
@@ -271,6 +282,7 @@ class HomePage extends StatelessWidget {
 							context, 
 							InitTrackerItem(
 								name: nameController.text, 
+								notes: notesController.text,
 								initiative: int.tryParse(initiativeController.text) ?? 0, 
 								currentHp: int.tryParse(currentHpController.text) ?? 0,
 								totalHp: int.tryParse(totalHpController.text) ?? 0,

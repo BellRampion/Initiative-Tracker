@@ -14,6 +14,7 @@ Each initiative item has the following buttons:
 ## Installation
 
 Currently, these releases come with a self-signed certificate that must be installed before trying to install the app. To do so:
+
 - Right-click on the installer and select **Properties**
 - Go to the **Digital Signature** tab
 - Select the certificate from the **Signature List**

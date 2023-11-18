@@ -3,13 +3,16 @@
 ## About
 This is a simple initiative tracker that allows tracking current and total hitpoints as well as initiative for each character. 
 The buttons are as follows:
-    - **Delete All**: wipes the entire list
-    - **Add New**: add a new step to the list
-    - **Next**: advance to the next item on the list
-    - **Restart**: start over at the beginning of the list
+
+- **Delete All**: wipes the entire list
+- **Add New**: add a new step to the list
+- **Next**: advance to the next item on the list
+- **Restart**: start over at the beginning of the list
+
 Each initiative item has the following buttons:
-    - **Copy**: opens the Add New screen with all fields already filled
-    - **Delete**: Deletes that initiative item
+
+- **Copy**: opens the Add New screen with all fields already filled
+- **Delete**: Deletes that initiative item
 
 ## Installation
 

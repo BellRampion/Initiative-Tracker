@@ -29,3 +29,7 @@ doc/api/
 #Manually added exclusions
 Algorithm Design.txt
 .debian/packages
+
+#Manually added exclusions
+Algorithm Design.txt
+.debian/packages

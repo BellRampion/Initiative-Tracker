@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 class InitTrackerItemCard extends StatelessWidget{
     InitTrackerItem initTrackerItem;
 	TextEditingController currentHpController = TextEditingController();
+	TextEditingController notesController = TextEditingController();
 	IconButton deleteButton;
 	IconButton copyButton;
 	bool isSelected;
 
 	InitTrackerItemCard({super.key, required this.initTrackerItem, required this.deleteButton, required this.copyButton, required this.isSelected}){
 		currentHpController.text = initTrackerItem.currentHp.toString();
+		notesController.text = initTrackerItem.notes;
 	}
 
 	@override
@@ -26,6 +28,21 @@ class InitTrackerItemCard extends StatelessWidget{
 						Expanded(
 							child: Text(initTrackerItem.name, style: UIStyles.getRegularText(context)),
 						),
+						Flexible(
+							child: TextField(
+								controller: notesController,
+								decoration: InputDecoration(
+									border: UnderlineInputBorder(
+										borderSide: BorderSide(color: Theme.of(context).primaryColorDark)
+									),
+									filled: true
+								),
+								onChanged: (value){
+									initTrackerItem.notes = value;
+								}
+							),
+						),
+						SizedBox(width: MediaQuery.sizeOf(context).width > 500 ? 20 : 10,),
 						Container(
 							padding: const EdgeInsets.fromLTRB(6.0, 1.0, 6.0, 2.0),
 							decoration: BoxDecoration(

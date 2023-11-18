@@ -25,5 +25,5 @@ class DeleteAll extends InitTrackerBlocEvent {
 }
 
 class RestartTracker extends InitTrackerBlocEvent {
-  RestartTracker();
+	RestartTracker();
 }

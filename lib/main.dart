@@ -208,67 +208,69 @@ class HomePage extends StatelessWidget {
 			title: Text("Add New Initiative Step", style: UIStyles.getRegularText(context)),
 			content: Padding(
 				padding: EdgeInsets.all(8.0),
-				child: Column(
-					children: [
-						TextField(
-							decoration: InputDecoration(
-								labelText: "Name",
-								border: OutlineInputBorder()
+				child: SingleChildScrollView(
+					child: Column(
+						children: [
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Name",
+									border: OutlineInputBorder()
+								),
+								style: UIStyles.getRegularText(context),
+								controller: nameController,
 							),
-							style: UIStyles.getRegularText(context),
-							controller: nameController,
-						),
-						SizedBox(height: boxHeight),
-						TextField(
-							decoration: InputDecoration(
-								labelText: "Notes",
-								border: OutlineInputBorder()
+							SizedBox(height: boxHeight),
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Notes",
+									border: OutlineInputBorder()
+								),
+								style: UIStyles.getRegularText(context),
+								controller: notesController, 
 							),
-							style: UIStyles.getRegularText(context),
-							controller: notesController, 
-						),
-						SizedBox(height: boxHeight),
-						TextField(
-							decoration: InputDecoration(
-								labelText: "Current hitpoints",
-								border: OutlineInputBorder()
+							SizedBox(height: boxHeight),
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Current hitpoints",
+									border: OutlineInputBorder()
+								),
+								style: UIStyles.getRegularText(context),
+								controller: currentHpController,
+								keyboardType: TextInputType.numberWithOptions(signed: true),
+								inputFormatters: <TextInputFormatter>[
+									FilteringTextInputFormatter.allow(RegExp(r'-?\d*')),
+								], 
 							),
-							style: UIStyles.getRegularText(context),
-							controller: currentHpController,
-							keyboardType: TextInputType.numberWithOptions(signed: true),
-							inputFormatters: <TextInputFormatter>[
-								FilteringTextInputFormatter.allow(RegExp(r'-?\d*')),
-							], 
-						),
-						SizedBox(height: boxHeight),
-						TextField(
-							decoration: InputDecoration(
-								labelText: "Total Hitpoints",
-								border: OutlineInputBorder()
+							SizedBox(height: boxHeight),
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Total Hitpoints",
+									border: OutlineInputBorder()
+								),
+								style: UIStyles.getRegularText(context),
+								controller: totalHpController,
+								keyboardType: TextInputType.number,
+								inputFormatters: <TextInputFormatter>[
+									FilteringTextInputFormatter.allow(RegExp(r'\d+')),
+								], 
 							),
-							style: UIStyles.getRegularText(context),
-							controller: totalHpController,
-							keyboardType: TextInputType.number,
-							inputFormatters: <TextInputFormatter>[
-								FilteringTextInputFormatter.allow(RegExp(r'\d+')),
-							], 
-						),
-						SizedBox(height: boxHeight),
-						TextField(
-							decoration: InputDecoration(
-								labelText: "Initiative",
-								border: OutlineInputBorder()
+							SizedBox(height: boxHeight),
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Initiative",
+									border: OutlineInputBorder()
+								),
+								style: UIStyles.getRegularText(context),
+								controller: initiativeController,
+								keyboardType: TextInputType.number,
+								inputFormatters: <TextInputFormatter>[
+									FilteringTextInputFormatter.allow(RegExp(r'\d+')),
+								], 
 							),
-							style: UIStyles.getRegularText(context),
-							controller: initiativeController,
-							keyboardType: TextInputType.number,
-							inputFormatters: <TextInputFormatter>[
-								FilteringTextInputFormatter.allow(RegExp(r'\d+')),
-							], 
-						),
-						SizedBox(height: boxHeight),
-						
-					]
+							SizedBox(height: boxHeight),
+							
+						]
+					),
 				),
 			),
 			actions: [

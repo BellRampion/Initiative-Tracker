@@ -38,6 +38,7 @@ class InitTrackerItemCard extends StatelessWidget{
 									),
 									filled: true
 								),
+								style: TextStyle(fontSize: MediaQuery.sizeOf(context).width > 500 ? 12 : 10,),
 								onChanged: (value){
 									initTrackerItem.notes = value;
 								}

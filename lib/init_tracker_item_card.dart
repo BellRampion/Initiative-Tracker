@@ -3,6 +3,7 @@
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:basic_initiative_tracker/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InitTrackerItemCard extends StatelessWidget{
     InitTrackerItem initTrackerItem;
@@ -65,6 +66,10 @@ class InitTrackerItemCard extends StatelessWidget{
 												),
 												filled: true
 											),
+											keyboardType: TextInputType.number,
+											inputFormatters: <TextInputFormatter>[
+												FilteringTextInputFormatter.allow(RegExp(r'^-?\d*')),
+											], 
 											onChanged: (value){
 												initTrackerItem.currentHp = int.tryParse(value) ?? 0;
 											},

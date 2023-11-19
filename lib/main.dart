@@ -235,9 +235,9 @@ class HomePage extends StatelessWidget {
 							),
 							style: UIStyles.getRegularText(context),
 							controller: currentHpController,
-							keyboardType: TextInputType.number,
+							keyboardType: TextInputType.numberWithOptions(signed: true),
 							inputFormatters: <TextInputFormatter>[
-								FilteringTextInputFormatter.allow(RegExp(r'\d+')),
+								FilteringTextInputFormatter.allow(RegExp(r'-?\d*')),
 							], 
 						),
 						SizedBox(height: boxHeight),

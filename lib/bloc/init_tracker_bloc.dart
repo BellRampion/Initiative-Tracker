@@ -103,13 +103,25 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			));
 		});
 
-    on<RestartTracker>((event, emit){
-      emit(InitTrackerBlocState(
-        initList: state.initList,
-        listPlace: 0,
-        isNewRound: true,
-      ));
-    });
+		on<RestartTracker>((event, emit){
+			emit(InitTrackerBlocState(
+				initList: state.initList,
+				listPlace: 0,
+				isNewRound: true,
+			));
+		});
+
+		on<SaveTracker>((event, emit){
+			emit(InitTrackerBlocState(
+				initList: state.initList,
+				listPlace: state.listPlace,
+				isNewRound: false,
+			));
+		});
+
+		on<LoadTracker>((event, emit){
+			
+		});
 
 	}
 }

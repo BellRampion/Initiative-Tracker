@@ -38,8 +38,6 @@ class HomePage extends StatelessWidget {
 	static const double boxHeight = 10;
 	static const double iconButtonSpacing = 16;
 
-
-
 	@override
 	Widget build(BuildContext context){
 		return BlocConsumer<InitTrackerBloc, InitTrackerBlocState>(

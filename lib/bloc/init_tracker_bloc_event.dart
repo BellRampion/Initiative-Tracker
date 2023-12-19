@@ -27,3 +27,11 @@ class DeleteAll extends InitTrackerBlocEvent {
 class RestartTracker extends InitTrackerBlocEvent {
 	RestartTracker();
 }
+
+class SaveTracker extends InitTrackerBlocEvent {
+	SaveTracker();
+}
+
+class LoadTracker extends InitTrackerBlocEvent {
+	LoadTracker();
+}

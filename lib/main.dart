@@ -72,45 +72,55 @@ class HomePage extends StatelessWidget {
 					),
 					body: Padding(
 						padding: EdgeInsets.all(8.0),
-						child: ListView.builder(
-							itemCount: state.initList.length,
-							itemBuilder: (context, index){
-								//Have to pull it out for the onPressed
-								InitTrackerItem initialItem = state.initList[index];
+						child: Column(
+							children: [
+								Expanded(
+								child: ListView.builder(
+									itemCount: state.initList.length,
+									itemBuilder: (context, index){
+										//Have to pull it out for the onPressed
+										InitTrackerItem initialItem = state.initList[index];
 
-								return InitTrackerItemCard(
-									isSelected: state.listPlace == index,
-									initTrackerItem: initialItem,
-									copyButton: IconButton(
-										icon: Icon(Icons.copy),
-										onPressed: () async {
-											InitTrackerItem? item = await showDialog<InitTrackerItem>(
-												context: context,
-												builder: (context) {
-													return addItemDialog(
-														context: context, 
-														name: initialItem.name, 
-														notes: initialItem.notes,
-														initiative: initialItem.initiative, 
-														currentHp: initialItem.currentHp, 
-														totalHp: initialItem.totalHp,
+										return InitTrackerItemCard(
+											isSelected: state.listPlace == index,
+											initTrackerItem: initialItem,
+											copyButton: IconButton(
+												icon: Icon(Icons.copy),
+												onPressed: () async {
+													InitTrackerItem? item = await showDialog<InitTrackerItem>(
+														context: context,
+														builder: (context) {
+															return addItemDialog(
+																context: context, 
+																name: initialItem.name, 
+																notes: initialItem.notes,
+																initiative: initialItem.initiative, 
+																currentHp: initialItem.currentHp, 
+																totalHp: initialItem.totalHp,
+															);
+														},
 													);
-												},
-											);
 
-											if (item != null){
-												context.read<InitTrackerBloc>().add(AddInitItem(item: item));
-											}
-										}
-									),
-									deleteButton: IconButton(
-										icon: Icon(Icons.delete),
-										onPressed: (){
-											context.read<InitTrackerBloc>().add(DeleteItem(key: initialItem.key));
-										}
-									),
-								);
-							}
+													if (item != null){
+														context.read<InitTrackerBloc>().add(AddInitItem(item: item));
+													}
+												}
+											),
+											deleteButton: IconButton(
+												icon: Icon(Icons.delete),
+												onPressed: (){
+													context.read<InitTrackerBloc>().add(DeleteItem(key: initialItem.key));
+												}
+											),
+										);
+									}
+								),
+								),
+								SizedBox(
+									height: MediaQuery.of(context).size.height > 500 ? 100 : 30,
+									child: Container(),
+								),
+							]
 						),
 					),
 					floatingActionButton: Padding(

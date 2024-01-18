@@ -14,7 +14,7 @@ Each initiative item has the following buttons:
 - **Copy**: opens the Add New screen with all fields already filled
 - **Delete**: Deletes that initiative item
 
-## Installation
+## Windows Installation
 
 Currently, these releases come with a self-signed certificate that must be installed before trying to install the app. To do so:
 

@@ -98,7 +98,6 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 		});
 
     on<EditItem>((event, emit){
-			int itemIndex = 0;
 			UniqueKey currItemKey;
 			int newListPlace = 0;
 

@@ -1,40 +1,48 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, must_be_immutable
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:basic_initiative_tracker/init_tracker_item_card.dart';
+import 'package:basic_initiative_tracker/settingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/init_tracker_bloc.dart';
 
-void main() {
-	runApp(const MainApp());
+void main() async {
+	WidgetsFlutterBinding.ensureInitialized();
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  runApp(MainApp(savedThemeMode: savedThemeMode));
 }
 
 class MainApp extends StatelessWidget {
-	const MainApp({super.key});
+  AdaptiveThemeMode? savedThemeMode; 
+	MainApp({super.key, this.savedThemeMode});
 
 	@override
 	Widget build(BuildContext context) {
 		return BlocProvider(
 			create: (context) => InitTrackerBloc(),
-			child: MaterialApp(
-				title: "Initiative Tracker",
-				debugShowCheckedModeBanner: false,
-				theme: ThemeData.dark().copyWith(
-					colorScheme: ColorScheme.fromSeed(
-						seedColor: Color.fromARGB(255, 87, 0, 0),
-					),
-				),
-				home: HomePage(),
-			)
+			child: AdaptiveTheme(
+        light: ThemeData.light(useMaterial3: true),
+        dark: ThemeData.dark(useMaterial3: true),
+        initial: savedThemeMode ?? AdaptiveThemeMode.dark,
+        builder: (theme, darkTheme) => MaterialApp(
+          theme: theme,
+          darkTheme: darkTheme,
+          title: "Initiative Tracker",
+          debugShowCheckedModeBanner: false,
+          home: HomePage(isDarkMode: savedThemeMode?.isDark ?? true,),
+        )
+      ),
 		);
 	}
 }
 
 class HomePage extends StatelessWidget {
-	const HomePage({super.key});
+  bool isDarkMode;
+	HomePage({super.key, required this.isDarkMode});
 	static const double boxHeight = 10;
 	static const double iconButtonSpacing = 16;
 
@@ -67,8 +75,20 @@ class HomePage extends StatelessWidget {
 			builder: (context, state){ 
 				return Scaffold(
 					appBar: AppBar(
-						backgroundColor: Color.fromARGB(255, 61, 0, 0),
 						title: Text("Initiative Tracker", style: UIStyles.getHeaderText(context)),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SettingsPage(darkMode: isDarkMode),
+                    ),
+                  );
+                }
+              ),
+            ],
 					),
 					body: Padding(
 						padding: EdgeInsets.all(8.0),
@@ -152,6 +172,7 @@ class HomePage extends StatelessWidget {
 							mainAxisAlignment: MainAxisAlignment.end,
 							children: [
 								FloatingActionButton(
+                  heroTag: UniqueKey(),
 									child: Icon(Icons.delete_outlined),
 									onPressed: () async {
 										bool? delete = await showDialog(
@@ -192,6 +213,7 @@ class HomePage extends StatelessWidget {
 								),
 								SizedBox(width: iconButtonSpacing),
 								FloatingActionButton(
+                  heroTag: UniqueKey(),
 									onPressed: () async {
 										InitTrackerItem? item = await showDialog<InitTrackerItem>(
 											context: context,
@@ -208,6 +230,7 @@ class HomePage extends StatelessWidget {
 								),
 								SizedBox(width: iconButtonSpacing),
 								FloatingActionButton(
+                  heroTag: UniqueKey(),
 									child: Icon(Icons.navigate_next),
 									onPressed: () async {
 										context.read<InitTrackerBloc>().add(AdvanceTracker());
@@ -215,6 +238,7 @@ class HomePage extends StatelessWidget {
 								),
 								SizedBox(width: iconButtonSpacing),
 								FloatingActionButton(
+                  heroTag: UniqueKey(),
 									child: Icon(Icons.restart_alt),
 									onPressed: () async {
 										context.read<InitTrackerBloc>().add(RestartTracker());

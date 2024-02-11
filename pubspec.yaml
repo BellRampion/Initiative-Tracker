@@ -28,7 +28,7 @@ msix_config:
   publisher_display_name: Bailie Gowing
   identity_name: bailiegowing.basicInitiativeTracker
   logo_path: assets/appIcon.png
-  certificate_path: C:\dev\init_tracker\Basic-Initiative-Tracker\basicInitTrackerCert.pfx
+  certificate_path: C:\dev\init_tracker\Basic-Initiative-Tracker\build\windows\runner\Release\basicInitTrackerCert.pfx
   msix_version: 1.0.0.0
 
 flutter_launcher_icons:

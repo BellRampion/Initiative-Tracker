@@ -27,3 +27,10 @@ class DeleteAll extends InitTrackerBlocEvent {
 class RestartTracker extends InitTrackerBlocEvent {
 	RestartTracker();
 }
+
+class EditItem extends InitTrackerBlocEvent {
+  UniqueKey key;
+  InitTrackerItem newItem;
+
+  EditItem({required this.key, required this.newItem});
+}

@@ -11,9 +11,17 @@ class InitTrackerItemCard extends StatelessWidget{
 	TextEditingController notesController = TextEditingController();
 	IconButton deleteButton;
 	IconButton copyButton;
+  IconButton editButton;
 	bool isSelected;
 
-	InitTrackerItemCard({super.key, required this.initTrackerItem, required this.deleteButton, required this.copyButton, required this.isSelected}){
+	InitTrackerItemCard({
+    super.key, 
+    required this.initTrackerItem, 
+    required this.deleteButton, 
+    required this.copyButton, 
+    required this.isSelected,
+    required this.editButton,
+  }){
 		currentHpController.text = initTrackerItem.currentHp.toString();
 		notesController.text = initTrackerItem.notes;
 	}
@@ -97,7 +105,8 @@ class InitTrackerItemCard extends StatelessWidget{
 								color: Theme.of(context).colorScheme.onPrimaryContainer,
 							),
 							child: Text(
-								initTrackerItem.initiative.toString().padLeft(2, "0"),
+                //Pad left "4" because of the decimal point and the trailing digit
+								initTrackerItem.initiative.toString().padLeft(4, "0"),
 								style: UIStyles.getRegularText(context).copyWith(
 									fontWeight: FontWeight.bold, 
 									fontSize: MediaQuery.sizeOf(context).width > 500 ? 22 : 18,
@@ -107,6 +116,7 @@ class InitTrackerItemCard extends StatelessWidget{
 						SizedBox(
 							width: MediaQuery.sizeOf(context).width > 500 ? 5 : 2,
 						),
+            editButton,
 						copyButton,
 						deleteButton,
 					]

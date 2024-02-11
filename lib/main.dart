@@ -84,6 +84,29 @@ class HomePage extends StatelessWidget {
 										return InitTrackerItemCard(
 											isSelected: state.listPlace == index,
 											initTrackerItem: initialItem,
+                      editButton: IconButton(
+												icon: Icon(Icons.edit),
+												onPressed: () async {
+													InitTrackerItem? item = await showDialog<InitTrackerItem>(
+														context: context,
+														builder: (context) {
+															return addItemDialog(
+                                title: "Edit Item",
+																context: context, 
+																name: initialItem.name, 
+																notes: initialItem.notes,
+																initiative: initialItem.initiative, 
+																currentHp: initialItem.currentHp, 
+																totalHp: initialItem.totalHp,
+															);
+														},
+													);
+
+													if (item != null){
+														context.read<InitTrackerBloc>().add(EditItem(key: initialItem.key, newItem: item));
+													}
+												}
+											),
 											copyButton: IconButton(
 												icon: Icon(Icons.copy),
 												onPressed: () async {
@@ -207,7 +230,15 @@ class HomePage extends StatelessWidget {
 		);
 	}
 
-	Widget addItemDialog({required BuildContext context, required String name, required String notes, required int currentHp, required int totalHp, required int initiative}){
+	Widget addItemDialog({
+    required BuildContext context, 
+    required String name, 
+    required String notes, 
+    required int currentHp, 
+    required int totalHp, 
+    required double initiative,
+    String? title,
+  }){
 		TextEditingController nameController = TextEditingController(text: name);
 		TextEditingController notesController = TextEditingController(text: notes);
 		TextEditingController currentHpController = TextEditingController(text: currentHp.toString());
@@ -215,7 +246,7 @@ class HomePage extends StatelessWidget {
 		TextEditingController initiativeController = TextEditingController(text: initiative.toString());
 		
 		return AlertDialog(
-			title: Text("Add New Initiative Step", style: UIStyles.getRegularText(context)),
+			title: Text(title ?? "Add New Initiative Step", style: UIStyles.getRegularText(context)),
 			content: Padding(
 				padding: EdgeInsets.all(8.0),
 				child: SingleChildScrollView(
@@ -295,7 +326,7 @@ class HomePage extends StatelessWidget {
 							InitTrackerItem(
 								name: nameController.text, 
 								notes: notesController.text,
-								initiative: int.tryParse(initiativeController.text) ?? 0, 
+								initiative: double.tryParse(initiativeController.text) ?? 0, 
 								currentHp: int.tryParse(currentHpController.text) ?? 0,
 								totalHp: int.tryParse(totalHpController.text) ?? 0,
 							)

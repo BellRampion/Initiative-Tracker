@@ -29,9 +29,11 @@ class RestartTracker extends InitTrackerBlocEvent {
 }
 
 class SaveTracker extends InitTrackerBlocEvent {
-	SaveTracker();
+	String filename;
+	SaveTracker({required this.filename});
 }
 
 class LoadTracker extends InitTrackerBlocEvent {
-	LoadTracker();
+	String filename;
+	LoadTracker({required this.filename});
 }

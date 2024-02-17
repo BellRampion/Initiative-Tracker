@@ -14,10 +14,10 @@ class InitTrackerItem {
 
 	InitTrackerItem.fromJson(Map<String, dynamic> json) :
 			initiative = (json['initiative'] as int?) ?? 0,
-			name = (json['name']),
-			notes = (json['notes']),
-			totalHp = (json['totalHp']),
-			currentHp = (json['currentHp']);
+			name = (json['name'] as String?) ?? "",
+			notes = (json['notes'] as String?) ?? "",
+			totalHp = (json['totalHp'] as int?) ?? 0,
+			currentHp = (json['currentHp'] as int?) ?? 0;
 		
 
 	Map<String, dynamic> toJson(){

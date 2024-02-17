@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:basic_initiative_tracker/init_tracker_item_card.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +54,26 @@ class HomePage extends StatelessWidget {
 								actions: [
 									TextButton(
 										child: Text("Ok", style: UIStyles.getTextButtonText(context)),
+										onPressed: (){
+											Navigator.pop(context);
+										}
+									)
+								]
+							);
+						}
+					);
+				}
+
+				if (state.displayString != null){
+					await showDialog(
+						context: context,
+						builder: (context){
+							return AlertDialog(
+								content: Text(state.displayString ?? "", style: UIStyles.getRegularText(context)),
+								contentPadding: EdgeInsets.all(16.0),
+								actions: [
+									TextButton(
+										child: Text("Ok", style: UIStyles.getTextButtonText(context).copyWith(color: state.hasError ? Theme.of(context).colorScheme.error : UIStyles.getTextButtonText(context).color)),
 										onPressed: (){
 											Navigator.pop(context);
 										}
@@ -126,6 +148,46 @@ class HomePage extends StatelessWidget {
 						child: Row(
 							mainAxisAlignment: MainAxisAlignment.end,
 							children: [
+								FloatingActionButton(
+									child: Icon(Icons.save),
+									onPressed: () async {
+										String? outputFile = await FilePicker.platform.saveFile(
+											dialogTitle: 'Please select an output file:',
+											fileName: 'output-file.txt',
+										);
+
+										if (outputFile == null) {
+										// User canceled the picker
+											ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+												content: Text("Canceled save operation"),
+											));
+										}
+										else {
+											context.read<InitTrackerBloc>().add(SaveTracker(filename: outputFile));
+										}
+
+									} 
+								),
+								SizedBox(width: iconButtonSpacing),
+								FloatingActionButton(
+									child: Icon(Icons.file_open),
+									onPressed: () async {
+										String? inputFile = (await FilePicker.platform.pickFiles(
+											dialogTitle: 'Please select an input file:',
+										))?.files.single.path;
+
+										if (inputFile == null) {
+										// User canceled the picker
+											ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+												content: Text("Canceled load operation"),
+											));
+										}
+										else {
+											context.read<InitTrackerBloc>().add(LoadTracker(filename: inputFile));
+										}
+									}
+								),
+								SizedBox(width: iconButtonSpacing),
 								FloatingActionButton(
 									child: Icon(Icons.delete_outlined),
 									onPressed: () async {

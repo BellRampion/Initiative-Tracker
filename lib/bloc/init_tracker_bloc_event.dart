@@ -27,3 +27,13 @@ class DeleteAll extends InitTrackerBlocEvent {
 class RestartTracker extends InitTrackerBlocEvent {
 	RestartTracker();
 }
+
+class SaveTracker extends InitTrackerBlocEvent {
+	String filename;
+	SaveTracker({required this.filename});
+}
+
+class LoadTracker extends InitTrackerBlocEvent {
+	String filename;
+	LoadTracker({required this.filename});
+}

@@ -24,7 +24,8 @@ Currently, these releases come with a self-signed certificate that must be insta
 - Select **Details**
 - Select **View Certificate**
 - Select **Install Certificate**
-- Choose either **Current User** or **Local Machine** for the store location
+- Choose **Local Machine** for the store location
+  - This requires being an administrator
 - Choose **Place all certificates in the following store**
 - Click **Browse** and select **Trusted Root Certification Authorities**
 - Select **Ok**, then **Next**, then **Finish**

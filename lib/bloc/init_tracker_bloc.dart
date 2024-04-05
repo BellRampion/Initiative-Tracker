@@ -19,7 +19,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 				//Add the new initiative step
 				state.initList.add(event.item);
 				//Sort list
-			  sortInitList(state.initList);
+				sortInitList(state.initList);
 
 				//Find the item with the saved key and set it as the currently selected item
 				for (int i = 0; i < state.initList.length; i++){
@@ -97,7 +97,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			));
 		});
 
-    on<EditItem>((event, emit){
+		on<EditItem>((event, emit){
 			UniqueKey currItemKey;
 			int newListPlace = 0;
 
@@ -111,7 +111,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 				}
 			}
 
-      //Sort list
+      		//Sort list
 			sortInitList(state.initList);
 
 			//Find the item with the saved key and set it as the currently selected item
@@ -135,18 +135,18 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			));
 		});
 
-    on<RestartTracker>((event, emit){
-      emit(InitTrackerBlocState(
-        initList: state.initList,
-        listPlace: 0,
-        isNewRound: true,
-      ));
-    });
+		on<RestartTracker>((event, emit){
+			emit(InitTrackerBlocState(
+			initList: state.initList,
+			listPlace: 0,
+			isNewRound: true,
+			));
+		});
 
 	}
-
-  void sortInitList(List<InitTrackerItem> initList){
-    //Sort high to low initative
-    initList.sort((a, b) => a.initiative.compareTo(b.initiative) * -1);
-  }
+	
+	void sortInitList(List<InitTrackerItem> initList){
+		//Sort high to low initative
+		initList.sort((a, b) => a.initiative.compareTo(b.initiative) * -1);
+	}
 }

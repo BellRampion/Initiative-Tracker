@@ -34,3 +34,12 @@ class EditItem extends InitTrackerBlocEvent {
 
   EditItem({required this.key, required this.newItem});
 }
+class SaveTracker extends InitTrackerBlocEvent {
+	String filename;
+	SaveTracker({required this.filename});
+}
+
+class LoadTracker extends InitTrackerBlocEvent {
+	String filename;
+	LoadTracker({required this.filename});
+}

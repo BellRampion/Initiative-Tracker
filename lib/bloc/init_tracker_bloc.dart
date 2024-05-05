@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,10 +141,69 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 
 		on<RestartTracker>((event, emit){
 			emit(InitTrackerBlocState(
-			initList: state.initList,
-			listPlace: 0,
-			isNewRound: true,
+				initList: state.initList,
+				listPlace: 0,
+				isNewRound: true,
 			));
+		});
+
+		on<SaveTracker>((event, emit) async {
+			File outputFile = File(event.filename);
+			try {
+				List<Map<String, dynamic>> outputJsonMap = state.initList.map((e) => e.toJson()).toList();
+				String outputStr = const JsonEncoder().convert(outputJsonMap);
+				log(outputStr);
+				await outputFile.writeAsString(outputStr);
+				emit(InitTrackerBlocState(
+					initList: state.initList,
+					listPlace: state.listPlace,
+					isNewRound: false,
+					displayString: "${event.filename} created successfully.",
+					hasError: false,
+				));
+			}
+			catch (ex){
+				log("Error: $ex");
+				emit(InitTrackerBlocState(
+					initList: state.initList,
+					listPlace: state.listPlace,
+					isNewRound: false,
+					displayString: "Error creating ${event.filename}. File not created.",
+					hasError: true,
+				));
+			}
+
+		});
+
+		on<LoadTracker>((event, emit) async {
+			try {					
+				File file = File(event.filename);
+				String fileContents = await file.readAsString();
+				final List<dynamic> jsonMap = jsonDecode(fileContents);
+				List<InitTrackerItem> initListTemp = [];
+				for (Map<String, dynamic> item in jsonMap){
+					initListTemp.add(InitTrackerItem.fromJson(item));
+				}
+
+				emit(InitTrackerBlocState(
+					initList: initListTemp,
+					listPlace: state.listPlace,
+					isNewRound: false,
+					displayString: "${event.filename} loaded successfully.",
+					hasError: false,
+				));
+			}
+			catch (ex){
+				log("Error loading file: ", error: ex);
+				emit(InitTrackerBlocState(
+					initList: state.initList,
+					listPlace: state.listPlace,
+					isNewRound: false,
+					displayString: "Error loading ${event.filename}. File not loaded.",
+					hasError: true,
+				));
+			}
+
 		});
 
 	}

@@ -4,11 +4,15 @@ class InitTrackerBlocState {
 	List<InitTrackerItem> initList = [];
 	int listPlace = 0;
 	bool isNewRound = false;
+	String? displayString;
+	bool hasError = false;
 
 	InitTrackerBlocState({
 		required this.initList,
 		this.listPlace = 0,
 		this.isNewRound = false,
+		this.displayString,
+		this.hasError = false,
 	});
 
 	InitTrackerBlocState.initial();

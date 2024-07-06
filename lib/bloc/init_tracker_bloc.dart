@@ -40,6 +40,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			emit(InitTrackerBlocState(
 				initList: state.initList,
 				listPlace: newListPlace,
+        roundCounter: state.roundCounter,
 			));
 		});
 
@@ -64,6 +65,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					initList: state.initList,
 					listPlace: newStep,
 					isNewRound: true,
+          roundCounter: ++state.roundCounter,
 				));
 			}
 			else {
@@ -71,6 +73,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					initList: state.initList,
 					listPlace: newStep,
 					isNewRound: false,
+          roundCounter: state.roundCounter,
 				));
 			}
 		});
@@ -102,6 +105,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			emit(InitTrackerBlocState(
 				initList: state.initList,
 				listPlace: newListPlace,
+        roundCounter: state.roundCounter,
 			));
 		});
 
@@ -133,6 +137,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			emit(InitTrackerBlocState(
 				initList: state.initList,
 				listPlace: newListPlace,
+        roundCounter: state.roundCounter,
 			));
 		});
 
@@ -140,6 +145,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			emit(InitTrackerBlocState(
 				initList: [],
 				listPlace: 0,
+        roundCounter: 0,
 			));
 		});
 
@@ -148,6 +154,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 				initList: state.initList,
 				listPlace: 0,
 				isNewRound: true,
+        roundCounter: 0,
 			));
 		});
 
@@ -164,6 +171,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					isNewRound: false,
 					displayString: "${event.filename} created successfully.",
 					hasError: false,
+          roundCounter: state.roundCounter,
 				));
 			}
 			catch (ex){
@@ -174,6 +182,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					isNewRound: false,
 					displayString: "Error creating ${event.filename}. File not created.",
 					hasError: true,
+          roundCounter: state.roundCounter,
 				));
 			}
 
@@ -195,6 +204,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					isNewRound: false,
 					displayString: "${event.filename} loaded successfully.",
 					hasError: false,
+          roundCounter: 0
 				));
 			}
 			catch (ex){
@@ -205,6 +215,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 					isNewRound: false,
 					displayString: "Error loading ${event.filename}. File not loaded.",
 					hasError: true,
+          roundCounter: 0,
 				));
 			}
 

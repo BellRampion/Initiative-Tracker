@@ -102,17 +102,21 @@ class HomePage extends StatelessWidget {
 					title: Text("Initiative Tracker",
 							style: UIStyles.getHeaderText(context)),
 					actions: [
+            Text(
+              "Round Counter: ${state.roundCounter}"
+            ),
 						IconButton(
-								icon: Icon(Icons.settings),
-								onPressed: () {
-									Navigator.push(
-										context,
-										MaterialPageRoute(
-											builder: (context) =>
-													SettingsPage(),
-										),
-									);
-								}),
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        SettingsPage(),
+                  ),
+                );
+              }
+            ),
 					],
 				),
 				body: Padding(
@@ -201,7 +205,7 @@ class HomePage extends StatelessWidget {
 								),
 						FloatingActionButton(
               heroTag: UniqueKey(),
-							child: Icon(Icons.save),
+              tooltip: "Save to file",
 							onPressed: () async {
 								String? outputFile = await FilePicker.platform.saveFile(
 									dialogTitle: 'Please select an output file:',
@@ -218,12 +222,13 @@ class HomePage extends StatelessWidget {
 									context.read<InitTrackerBloc>().add(SaveTracker(filename: outputFile));
 								}
 
-							} 
+							},
+							child: Icon(Icons.save) 
 						),
 						SizedBox(width: iconButtonSpacing),
 						FloatingActionButton(
               heroTag: UniqueKey(),
-							child: Icon(Icons.file_open),
+              tooltip: "Load from file",
 							onPressed: () async {
 								String? inputFile = (await FilePicker.platform.pickFiles(
 									dialogTitle: 'Please select an input file:',
@@ -238,12 +243,13 @@ class HomePage extends StatelessWidget {
 								else {
 									context.read<InitTrackerBloc>().add(LoadTracker(filename: inputFile));
 								}
-							}
+							},
+							child: Icon(Icons.file_open)
 						),
 						SizedBox(width: iconButtonSpacing),
 						FloatingActionButton(
 								heroTag: UniqueKey(),
-								child: Icon(Icons.delete_outlined),
+                tooltip: "Delete all",
 								onPressed: () async {
 									bool? delete = await showDialog(
 											context: context,
@@ -277,10 +283,12 @@ class HomePage extends StatelessWidget {
 									if (delete != null && delete) {
 										context.read<InitTrackerBloc>().add(DeleteAll());
 									}
-								}),
+								},
+								child: Icon(Icons.delete_outlined)),
 						SizedBox(width: iconButtonSpacing),
 						FloatingActionButton(
 							heroTag: UniqueKey(),
+              tooltip: "Add item",
 							onPressed: () async {
 								InitTrackerItem? item = await showDialog<InitTrackerItem>(
 									context: context,
@@ -304,6 +312,7 @@ class HomePage extends StatelessWidget {
 						SizedBox(width: iconButtonSpacing),
 						FloatingActionButton(
 								heroTag: UniqueKey(),
+                tooltip: "Next item",
 								child: Icon(Icons.navigate_next),
 								onPressed: () async {
 									context.read<InitTrackerBloc>().add(AdvanceTracker());
@@ -311,6 +320,7 @@ class HomePage extends StatelessWidget {
 						SizedBox(width: iconButtonSpacing),
 						FloatingActionButton(
 								heroTag: UniqueKey(),
+                tooltip: "Restart",
 								child: Icon(Icons.restart_alt),
 								onPressed: () async {
 									context.read<InitTrackerBloc>().add(RestartTracker());

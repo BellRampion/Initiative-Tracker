@@ -56,6 +56,10 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 				newStep = 0;
 			}      
 			if (newStep == 0){
+        for (InitTrackerItem item in state.initList){
+          item.reaction1Used = false;
+          item.reaction2Used = false;
+        }
 				emit(InitTrackerBlocState(
 					initList: state.initList,
 					listPlace: newStep,

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, must_be_immutable
 
+import 'package:basic_initiative_tracker/bloc/settings_bloc.dart';
 import 'package:basic_initiative_tracker/bloc/theme_color_bloc.dart';
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:basic_initiative_tracker/init_tracker_item_card.dart';
@@ -38,6 +39,9 @@ class MainAppState extends State<MainApp> {
 				BlocProvider<ThemeColorBloc>(
 					create: (context) => ThemeColorBloc(),
 				),
+        BlocProvider<SettingsBloc>(
+          create: (context) => SettingsBloc()
+        ),
 			],
 			child: BlocBuilder<ThemeColorBloc, ThemeColorBlocState>(builder: (context, state) {
 				return MaterialApp(

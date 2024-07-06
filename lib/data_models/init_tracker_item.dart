@@ -6,6 +6,8 @@ class InitTrackerItem {
 	String notes;
 	int totalHp = 0;
 	int currentHp = 0;
+  bool reaction1Used = false;
+  bool reaction2Used = false;
 	//Distinct identifier to refer to this initiative card by
 	UniqueKey key = UniqueKey();
 
@@ -17,7 +19,10 @@ class InitTrackerItem {
 			name = (json['name'] as String?) ?? "",
 			notes = (json['notes'] as String?) ?? "",
 			totalHp = (json['totalHp'] as int?) ?? 0,
-			currentHp = (json['currentHp'] as int?) ?? 0;
+			currentHp = (json['currentHp'] as int?) ?? 0,
+      reaction1Used = (json['reaction1Used'] as bool?) ?? false,
+      reaction2Used = (json['reaction2Used'] as bool?) ?? false;
+
 		
 
 	Map<String, dynamic> toJson(){
@@ -26,7 +31,9 @@ class InitTrackerItem {
 			"name": name,
 			"notes": notes,
 			"totalHp": totalHp,
-			"currentHp": currentHp
+			"currentHp": currentHp,
+      "reaction1Used": reaction1Used,
+      "reaction2Used": reaction2Used
 		};
 	}
 }

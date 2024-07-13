@@ -16,3 +16,4 @@ To build to Windows
 	- Add the cert to root file for Basic Initiative Tracker
 	- Add cert password to pubspec.yaml
 	- ` dart run msix:create`
+	- Remove cert password from pubspec.yaml

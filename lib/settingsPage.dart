@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable, use_build_context_synchronously, prefer_const_constructors_in_immutables
 
-import 'package:basic_initiative_tracker/Constants.dart';
+import 'package:basic_initiative_tracker/constants.dart';
 import 'package:basic_initiative_tracker/bloc/settings_bloc.dart';
 import 'package:basic_initiative_tracker/bloc/theme_color_bloc.dart';
 import 'package:basic_initiative_tracker/main.dart';

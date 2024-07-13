@@ -1,5 +1,5 @@
 
-import 'package:basic_initiative_tracker/Constants.dart';
+import 'package:basic_initiative_tracker/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'settings_bloc_state.dart';
@@ -10,7 +10,7 @@ class SettingsBloc extends Bloc<SettingsBlocEvent, SettingsBlocState> {
 
 	SettingsBloc() : super(SettingsBlocState.initial()){
     on<SystemChangeEvent>(( event, emit) async {
-      emit(
+			emit(
         SettingsBlocState(
           selectedSystem: event.newSelectedSystem,
         )

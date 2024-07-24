@@ -204,8 +204,8 @@ class HomePage extends StatelessWidget {
 									child: Container(),
 								),
 						FloatingActionButton(
-              heroTag: UniqueKey(),
-              tooltip: "Save to file",
+							heroTag: UniqueKey(),
+							tooltip: "Save to file",
 							onPressed: () async {
 								String? outputFile = await FilePicker.platform.saveFile(
 									dialogTitle: 'Please select an output file:',

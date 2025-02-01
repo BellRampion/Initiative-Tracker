@@ -6,7 +6,7 @@ class InitTrackerBlocState {
 	bool isNewRound = false;
 	String? displayString;
 	bool hasError = false;
-  int roundCounter = 0;
+  int roundCounter = 1;
 
 	InitTrackerBlocState({
 		required this.initList,

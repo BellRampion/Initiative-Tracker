@@ -2,6 +2,7 @@
 
 import 'package:basic_initiative_tracker/bloc/settings_bloc.dart';
 import 'package:basic_initiative_tracker/bloc/theme_color_bloc.dart';
+import 'package:basic_initiative_tracker/constants.dart';
 import 'package:basic_initiative_tracker/data_models/init_tracker_item.dart';
 import 'package:basic_initiative_tracker/init_tracker_item_card.dart';
 import 'package:basic_initiative_tracker/settingsPage.dart';
@@ -139,7 +140,7 @@ class HomePage extends StatelessWidget {
 																await showDialog<InitTrackerItem>(
 															context: context,
 															builder: (context) {
-																return addItemDialog(
+																return addEditItemDialog(
 																	title: "Edit Item",
 																	context: context,
 																	name: initialItem.name,
@@ -147,6 +148,7 @@ class HomePage extends StatelessWidget {
 																	initiative: initialItem.initiative,
 																	currentHp: initialItem.currentHp,
 																	totalHp: initialItem.totalHp,
+																	combatActions: initialItem.combatActions
 																);
 															},
 														);
@@ -163,13 +165,14 @@ class HomePage extends StatelessWidget {
 																await showDialog<InitTrackerItem>(
 															context: context,
 															builder: (context) {
-																return addItemDialog(
+																return addEditItemDialog(
 																	context: context,
 																	name: initialItem.name,
 																	notes: initialItem.notes,
 																	initiative: initialItem.initiative,
 																	currentHp: initialItem.currentHp,
 																	totalHp: initialItem.totalHp,
+																	combatActions: initialItem.combatActions,
 																);
 															},
 														);
@@ -293,13 +296,14 @@ class HomePage extends StatelessWidget {
 								InitTrackerItem? item = await showDialog<InitTrackerItem>(
 									context: context,
 									builder: (context) {
-										return addItemDialog(
+										return addEditItemDialog(
 											context: context,
 											name: "",
 											notes: "",
 											initiative: 0,
 											currentHp: 0,
-											totalHp: 0
+											totalHp: 0,
+											combatActions: 0
 										);
 									},
 								);
@@ -332,13 +336,14 @@ class HomePage extends StatelessWidget {
 		});
 	}
 
-	Widget addItemDialog({
+	Widget addEditItemDialog({
 		required BuildContext context,
 		required String name,
 		required String notes,
 		required int currentHp,
 		required int totalHp,
 		required double initiative,
+		required int combatActions,
 		String? title,
 	}) {
 		TextEditingController nameController = TextEditingController(text: name);
@@ -349,6 +354,7 @@ class HomePage extends StatelessWidget {
 				TextEditingController(text: totalHp.toString());
 		TextEditingController initiativeController =
 				TextEditingController(text: initiative.toString());
+		TextEditingController combatActionsController = TextEditingController(text: combatActions.toString());
 
 		return AlertDialog(
 				title: Text(title ?? "Add New Initiative Step",
@@ -359,22 +365,40 @@ class HomePage extends StatelessWidget {
 						child: Column(children: [
 							TextField(
 								decoration: InputDecoration(
-										labelText: "Name", border: OutlineInputBorder()),
+									labelText: "Name", 
+									border: OutlineInputBorder()
+								),
 								style: UIStyles.getRegularText(context),
 								controller: nameController,
 							),
 							SizedBox(height: boxHeight),
 							TextField(
 								decoration: InputDecoration(
-										labelText: "Notes", border: OutlineInputBorder()),
+									labelText: "Notes", 
+									border: OutlineInputBorder()),
 								style: UIStyles.getRegularText(context),
 								controller: notesController,
+							),
+							//Only ask for combat actions if the selected system is Runequest
+							if (SystemChoices.runequest.computerReadableName == context.watch<SettingsBloc>().state.selectedSystem.computerReadableName) 
+							SizedBox(height: boxHeight),
+							if (SystemChoices.runequest.computerReadableName == context.watch<SettingsBloc>().state.selectedSystem.computerReadableName) 
+							TextField(
+								decoration: InputDecoration(
+									labelText: "Combat Actions", 
+									border: OutlineInputBorder()),
+								style: UIStyles.getRegularText(context),
+								controller: combatActionsController,
+								keyboardType: TextInputType.number,
+								inputFormatters: <TextInputFormatter>[
+									FilteringTextInputFormatter.allow(RegExp(r'\d+')),
+								],
 							),
 							SizedBox(height: boxHeight),
 							TextField(
 								decoration: InputDecoration(
-										labelText: "Current hitpoints",
-										border: OutlineInputBorder()),
+									labelText: "Current hitpoints",
+									border: OutlineInputBorder()),
 								style: UIStyles.getRegularText(context),
 								controller: currentHpController,
 								keyboardType: TextInputType.numberWithOptions(signed: true),
@@ -385,7 +409,8 @@ class HomePage extends StatelessWidget {
 							SizedBox(height: boxHeight),
 							TextField(
 								decoration: InputDecoration(
-										labelText: "Total Hitpoints", border: OutlineInputBorder()),
+									labelText: "Total Hitpoints", 
+									border: OutlineInputBorder()),
 								style: UIStyles.getRegularText(context),
 								controller: totalHpController,
 								keyboardType: TextInputType.number,
@@ -396,7 +421,8 @@ class HomePage extends StatelessWidget {
 							SizedBox(height: boxHeight),
 							TextField(
 								decoration: InputDecoration(
-										labelText: "Initiative", border: OutlineInputBorder()),
+									labelText: "Initiative", 
+									border: OutlineInputBorder()),
 								style: UIStyles.getRegularText(context),
 								controller: initiativeController,
 								keyboardType: TextInputType.number,
@@ -423,6 +449,8 @@ class HomePage extends StatelessWidget {
 										initiative: double.tryParse(initiativeController.text) ?? 0,
 										currentHp: int.tryParse(currentHpController.text) ?? 0,
 										totalHp: int.tryParse(totalHpController.text) ?? 0,
+										combatActions: int.tryParse(combatActionsController.text) ?? 0,
+										combatActionsTotal: int.tryParse(combatActionsController.text) ?? 0,
 									));
 						},
 						child: Text("Done", style: UIStyles.getTextButtonText(context)),

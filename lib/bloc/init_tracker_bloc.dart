@@ -46,7 +46,9 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 
 		on<AdvanceTracker>((event, emit){
 			int currentStep = state.listPlace;
-			int newStep;
+			int newStep = currentStep;
+			bool combatActionsFinished = true;
+			
 			newStep = currentStep + 1;
 
 			if (state.initList.isEmpty){
@@ -55,11 +57,24 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 			else if (newStep == state.initList.length)
 			{
 				newStep = 0;
-			}      
-			if (newStep == 0){
+				//Every round, combat action count should decrement down to 0
+				for (InitTrackerItem item in state.initList){
+					if (item.combatActions > 0){
+						--item.combatActions;
+						combatActionsFinished = false;
+						//If it's 0 after decrementing, then don't rule out a new round starting
+						if (item.combatActions == 0)
+						{
+							combatActionsFinished = true;
+						}
+					}
+				}
+			}
+			if (newStep == 0 && combatActionsFinished){
         for (InitTrackerItem item in state.initList){
           item.reaction1Used = false;
           item.reaction2Used = false;
+					item.combatActions = item.combatActionsTotal;
         }
 				emit(InitTrackerBlocState(
 					initList: state.initList,
@@ -154,7 +169,7 @@ class InitTrackerBloc extends Bloc<InitTrackerBlocEvent, InitTrackerBlocState> {
 				initList: state.initList,
 				listPlace: 0,
 				isNewRound: true,
-        roundCounter: 0,
+        roundCounter: 1,
 			));
 		});
 
